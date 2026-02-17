@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baptiste Lotodé | QSR Operations Simulator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* DECATHLON TECH PALETTE */
+        :root { 
+            --decathlon-blue: #0082C3; 
+            --electric-cyan: #00f0ff;
+            --navy-bg: #0f172a; 
+            --success: #10b981; 
+            --warning: #f59e0b; 
+            --danger: #ef4444;
+        }
+        
+        body { 
+            background-color: var(--navy-bg); 
+            color: #ffffff; 
+            margin: 0; 
+            overflow: hidden; 
+            font-family: 'ui-sans-serif', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; 
+        }
+        
+        .navy-bg {
+            background: radial-gradient(circle at 50% 50%, #1e293b 0%, #0f172a 100%);
+            min-height: 100vh;
+        }
+        
+        /* Glassmorphism Decathlon Style */
+        .glass-panel { 
+            background: rgba(15, 23, 42, 0.85); 
+            backdrop-filter: blur(20px); 
+            border: 1px solid rgba(0, 130, 195, 0.3); 
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); 
+        }
+
+        /* Problem Window Animation */
+        .problem-window { 
+            position: absolute; width: 350px; z-index: 20; 
+            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+        }
+        
+        @keyframes popIn { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
+        
+        /* Interactive Buttons */
+        .choice-btn { 
+            transition: all 0.2s ease; 
+            border: 1px solid rgba(0, 240, 255, 0.1); 
+            position: relative; overflow: hidden; 
+        }
+        .choice-btn:hover { 
+            background: rgba(0, 130, 195, 0.2); 
+            border-color: var(--electric-cyan); 
+            transform: translateX(4px); 
+            color: var(--electric-cyan);
+        }
+        
+        /* Animations */
+        @keyframes screenShake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-5px); }
+            40%, 80% { transform: translateX(5px); }
+        }
+        .shake { animation: screenShake 0.3s ease-in-out; }
+
+        @keyframes floatText {
+            0% { opacity: 0; transform: translateY(0) scale(0.5); }
+            20% { opacity: 1; transform: translateY(-10px) scale(1.2); }
+            100% { opacity: 0; transform: translateY(-80px) scale(1); }
+        }
+        .floating-feedback { position: fixed; pointer-events: none; z-index: 100; font-weight: 900; font-family: monospace; animation: floatText 0.8s ease-out forwards; text-shadow: 0 0 10px rgba(0,0,0,0.5); }
+
+        /* Background Tech Grid */
+        .tech-grid {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 130, 195, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 130, 195, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none; z-index: 0;
+            mask-image: radial-gradient(circle, black 40%, transparent 80%);
+        }
+
+        @keyframes timerBar { from { width: 100%; } to { width: 0%; } }
+
+        /* Custom Scrollbar for Game Area if needed */
+        ::-webkit-scrollbar { width: 0px; }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen navy-bg" id="main-body">
+
+    <div class="tech-grid"></div>
+
+    <!-- Audio (Same sources) -->
+    <audio id="snd-spawn" src="https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3"></audio>
+    <audio id="snd-correct" src="https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3"></audio>
+    <audio id="snd-wrong" src="https://assets.mixkit.co/active_storage/sfx/959/959-preview.mp3"></audio>
+
+    <!-- Navigation (Decathlon Style) -->
+    <nav class="fixed w-full z-50 py-6 px-10 bg-slate-900/90 backdrop-blur-lg border-b border-blue-500/10">
+        <div class="max-w-7xl mx-auto flex justify-between items-center text-[10px] font-bold uppercase tracking-[0.3em]">
+            <a href="index.html" class="text-2xl font-black tracking-tighter uppercase group">
+                Baptiste <span class="text-[#0082C3] group-hover:text-white transition">Lotodé</span>
+            </a>
+            <div class="hidden md:flex space-x-10 items-center">
+                <a href="management.html" class="hover:text-[#0082C3] transition">Leadership</a>
+                <a href="operations.html" class="hover:text-[#0082C3] transition">Operations</a>
+                <a href="tech.html" class="hover:text-[#0082C3] transition">Strategy</a>
+                <a href="game.html" class="text-[#00f0ff] font-black italic">Ops Challenge</a> <!-- Active -->
+                <a href="contact.html" class="bg-[#0082C3] text-white px-6 py-2 rounded rounded-tl-xl rounded-br-xl hover:bg-white hover:text-[#0082C3] transition font-black">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow pt-32 flex flex-col items-center relative px-4 overflow-hidden z-10">
+        <!-- Background Text -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[15vw] font-black text-white/5 uppercase select-none pointer-events-none z-0">
+            EFFICIENCY
+        </div>
+
+        <!-- Dashboard / HUD -->
+        <div class="w-full max-w-5xl glass-panel rounded-2xl p-6 mb-8 flex flex-wrap justify-between items-center z-10 relative">
+            
+            <!-- SLA / Health -->
+            <div class="flex flex-col w-full md:w-1/3 mb-4 md:mb-0">
+                <div class="flex justify-between items-end mb-2">
+                    <span class="text-[10px] uppercase font-bold text-[#00f0ff] tracking-widest"><i class="fas fa-heartbeat mr-2"></i>SLA Status</span>
+                    <span id="sla-percent" class="text-xs font-mono font-bold text-white">100%</span>
+                </div>
+                <div class="w-full h-2 bg-slate-800 rounded-full overflow-hidden">
+                    <div id="sla-bar" class="h-full bg-[#0082C3] transition-all duration-300 rounded-full shadow-[0_0_10px_#0082C3]" style="width: 100%;"></div>
+                </div>
+            </div>
+
+            <!-- Timer -->
+            <div class="text-center">
+                <span class="text-[10px] uppercase font-bold text-slate-500 tracking-widest block mb-1">Shift Timer</span>
+                <div id="global-timer" class="text-4xl font-black font-mono text-white tracking-widest">60s</div>
+            </div>
+
+            <!-- Score -->
+            <div class="text-right w-full md:w-1/3">
+                <span class="text-[10px] uppercase font-bold text-[#00f0ff] tracking-widest block mb-1">Efficiency Score</span>
+                <div id="score-display" class="text-4xl font-black text-[#0082C3] drop-shadow-[0_0_10px_rgba(0,130,195,0.5)]">0</div>
+            </div>
+        </div>
+
+        <!-- Game Canvas -->
+        <div id="game-canvas" class="w-full max-w-6xl h-[600px] relative z-10 rounded-3xl border border-white/5 bg-slate-900/30 backdrop-blur-sm overflow-hidden">
+            
+            <!-- Start Screen -->
+            <div id="start-screen" class="absolute inset-0 flex items-center justify-center z-50">
+                <div class="glass-panel p-12 rounded-2xl text-center max-w-xl border-t border-[#00f0ff]/20">
+                    <div class="w-20 h-20 bg-[#0082C3]/20 rounded-full flex items-center justify-center mx-auto mb-6 border border-[#00f0ff]/30 shadow-[0_0_30px_rgba(0,130,195,0.3)]">
+                        <i class="fas fa-stopwatch text-[#00f0ff] text-3xl"></i>
+                    </div>
+                    <h2 class="text-4xl font-black uppercase italic mb-4 tracking-tighter text-white">Retail Ops <span class="text-[#0082C3]">Sim</span></h2>
+                    
+                    <div class="text-left space-y-3 mb-8 text-slate-300 text-xs bg-slate-900/50 p-6 rounded-lg border border-white/5">
+                        <p class="flex items-center"><i class="fas fa-exclamation-circle text-[#00f0ff] mr-3"></i> <strong>Misiune:</strong> Rezolvă incidentele critice din magazin.</p>
+                        <p class="flex items-center"><i class="fas fa-clock text-[#00f0ff] mr-3"></i> <strong>Timp:</strong> Ai 60 de secunde pentru a demonstra eficiența.</p>
+                        <p class="flex items-center"><i class="fas fa-mouse-pointer text-[#00f0ff] mr-3"></i> <strong>Gameplay:</strong> Alege rapid soluția corectă. Greșelile costă timp.</p>
+                    </div>
+
+                    <button onclick="initGame()" class="group relative bg-[#0082C3] text-white px-12 py-4 rounded-sm font-black uppercase text-xs hover:bg-[#00f0ff] hover:text-black transition-all shadow-[0_0_20px_rgba(0,130,195,0.4)]">
+                        Începe Tura
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="py-6 text-center text-slate-600 text-[10px] font-mono uppercase">
+        System Status: ONLINE // Baptiste Lotodé 2026
+    </footer>
+
+    <script>
+        let sla = 100, score = 0, timeLeft = 60, gameActive = false;
+        let activeIntervals = [];
+        let lastFiveIds = [];
+
+        // Identische Probleme wie vorher, Logik bleibt gleich
+        const problems = [
+            { id: 1, title: "Drive-Thru Blocat", text: "Coada de mașini depășește 10 minute.", options: ["Deschide a doua fereastră", "Ignoră și continuă lobby", "Cere clienților să aștepte"], correct: 0, points: 20 },
+            { id: 2, title: "Friteuză Defectă", text: "Friteuza principală s-a oprit în vârf de prânz.", options: ["Cheamă mentenanța & Ajustează meniul", "Închide restaurantul", "Folosește friteuza de rezervă mică"], correct: 0, points: 25 },
+            { id: 3, title: "Lipsă Chifle Burger", text: "Stocul de chifle este aproape de zero.", options: ["Împrumut de la restaurantul vecin", "Scoate burgerii din meniu", "Așteaptă livrarea de mâine"], correct: 0, points: 20 },
+            { id: 4, title: "Alertă HACCP", text: "Temperatura la vitrina frigorifică este de 8°C.", options: ["Transferă produsele & Verifică tehnic", "Lasă produsele acolo", "Închide vitrina fără transfer"], correct: 0, points: 30 },
+            { id: 5, title: "Plângere Client", text: "Clientul reclamă cartofi prăjiți reci.", options: ["Înlocuiește imediat & Scuze", "Spune că sunt proaspeți", "Oferă doar banii înapoi"], correct: 0, points: 15 },
+            { id: 6, title: "Echipă Incompletă", text: "Doi angajați au întârziat la schimbul de prânz.", options: ["Cross-training: Re-alocă echipa", "Închide Drive-Thru", "Lucrează singur pe toate zonele"], correct: 0, points: 25 },
+            { id: 7, title: "Lobby Murdar", text: "S-a vărsat o băutură pe coridorul principal.", options: ["Securizezi zona & Curăță imediat", "Așteaptă firma de curățenie", "Pune doar un semn galben"], correct: 0, points: 20 },
+            { id: 8, title: "Livrare Întârziată", text: "Camionul cu marfă proaspătă întârzie 2 ore.", options: ["Verifică stocul de siguranță", "Anulează toate comenzile", "Trimite angajații acasă"], correct: 0, points: 20 },
+            { id: 9, title: "Control Pierderi", text: "Nivelul de 'Waste' la bin este prea mare.", options: ["Verifică timpii de gătire (hold)", "Nu mai găti deloc", "Aruncă totul la gunoi ascuns"], correct: 0, points: 25 },
+            { id: 10, title: "Vârf de Prânz", text: "Aflux masiv de clienți neașteptat.", options: ["Toți la posturi (All Hands)", "Ia pauză acum", "Servește doar clienții VIP"], correct: 0, points: 15 },
+            { id: 11, title: "Sistem Plată Defect", text: "Terminalele de card nu funcționează.", options: ["Anunță clienții imediat & IT", "Spune-le la final", "Închide restaurantul"], correct: 0, points: 25 },
+            { id: 12, title: "Control DSP", text: "Inspecție inopinată de la DSP.", options: ["Însoțește inspectorul & Transparență", "Spune că managerul lipsește", "Refuză accesul"], correct: 0, points: 30 },
+            { id: 13, title: "Ulei Uzat", text: "Nivel critic de compuși polari în ulei.", options: ["Schimbă uleiul imediat", "Mai folosește-l o tură", "Adaugă ulei proaspăt"], correct: 0, points: 25 },
+            { id: 14, title: "Conflict Echipă", text: "Ceartă între stații în vârf de rush.", options: ["Mediere scurtă & Focus pe rush", "Ignoră conflictul", "Trimite-i acasă"], correct: 0, points: 20 },
+            { id: 15, title: "Eroare Kiosk", text: "Comandă plătită dar nu apare pe ecran.", options: ["Verifică bonul & Prepară manual", "Pune clientul să comande iar", "Suport tehnic"], correct: 0, points: 20 },
+            { id: 16, title: "Sos Expirat", text: "S-a găsit sos expirat ieri la dressier.", options: ["Elimină imediat & Re-train FIFO", "Folosește până la capăt", "Pune-l în spate"], correct: 0, points: 30 },
+            { id: 17, title: "Toalete Murdare", text: "Clienții se plâng de starea toaletelor.", options: ["Delegă curățenia imediat", "Așteaptă tura următoare", "Închide toaletele"], correct: 0, points: 15 },
+            { id: 18, title: "Pană Curent Băuturi", text: "Zona de băuturi nu are curent.", options: ["Siguranțe & Oferă alternative", "Nu mai vinde băuturi", "Așteaptă electricianul"], correct: 0, points: 20 },
+            { id: 19, title: "Livrare Incompletă", text: "LKW-ul a adus carne dar lipsesc cartofii.", options: ["Verifică stoc & Împrumut urgență", "Nu mai vinde cartofi", "Închide Drive-Thru"], correct: 0, points: 25 },
+            { id: 20, title: "Lobby rece", text: "AC-ul răcește prea tare, clienții se plâng.", options: ["Ajustează termostatul (22-24°C)", "Oprește sistemul", "Ignoră"], correct: 0, points: 15 },
+            { id: 21, title: "Alarmă Incendiu", text: "Senzor activat de fum la Grill.", options: ["Evacuează & Aplică protocol", "Oprește doar Grill-ul", "Ignoră"], correct: 0, points: 35 },
+            { id: 22, title: "Angajat Bolnav", text: "Angajatul este palid și are grețuri.", options: ["Trimite acasă & Igienizează", "Poartă mască", "Mută la Drive-Thru"], correct: 0, points: 30 },
+            { id: 23, title: "Eroare Livrări", text: "Tableta de comenzi online este defectă.", options: ["Sună suport & Manager App", "Nu mai accepta comenzi", "Închide livrările"], correct: 0, points: 25 },
+            { id: 24, title: "Accident Ulei", text: "Ulei s-a vărsat lângă friteuze.", options: ["Degresează imediat & Securizează", "Pune cartoane", "Așteaptă răcirea"], correct: 0, points: 30 },
+            { id: 25, title: "Lansare Produs", text: "Fără materiale publicitare la lansare.", options: ["Upsell verbal prin echipă", "Nu vinde produsul", "Anulează campania"], correct: 0, points: 20 },
+            { id: 26, title: "Ușă Congelator", text: "Ușa a stat deschisă 1 oră.", options: ["Verifică temperatură & Stoc", "Închide și taci", "Aruncă tot stocul"], correct: 0, points: 25 },
+            { id: 27, title: "Client Filmează", text: "Client filmează agresiv în bucătărie.", options: ["Abordează politicos & GDPR", "Smulge telefonul", "Sună la poliție"], correct: 0, points: 20 },
+            { id: 28, title: "Bancnotă Suspectă", text: "Diferență la tester pentru 100 RON.", options: ["Refuză politicos & Supervisor", "Reține bancnota", "Acceptă-o"], correct: 0, points: 25 },
+            { id: 29, title: "Diferență Inventar", text: "Lipsesc 20 kg de carne la final de zi.", options: ["Re-numără & Verifică Waste Log", "Scade din salariu", "Manual manual"], correct: 0, points: 30 },
+            { id: 30, title: "Client Agresiv", text: "Client țipă din cauza unei erori de meniu.", options: ["Dialog calm în privat", "Țipă înapoi", "Ignoră-l"], correct: 0, points: 25 }
+        ];
+
+        function playSnd(id) { 
+            const s = document.getElementById(id);
+            if(s) { s.currentTime = 0; s.play().catch(() => {}); }
+        }
+
+        function createFloatingText(text, color, x, y) {
+            const el = document.createElement('div');
+            el.className = 'floating-feedback';
+            el.style.left = x + 'px';
+            el.style.top = y + 'px';
+            el.style.color = color;
+            el.innerText = text;
+            document.body.appendChild(el);
+            setTimeout(() => el.remove(), 1000);
+        }
+
+        function initGame() {
+            gameActive = true; sla = 100; score = 0; timeLeft = 60; lastFiveIds = [];
+            document.getElementById('start-screen').classList.add('hidden');
+            document.getElementById('game-canvas').innerHTML = ""; 
+            
+            const timerInterval = setInterval(() => {
+                timeLeft--; 
+                document.getElementById('global-timer').innerText = timeLeft + "s";
+                if (timeLeft <= 0 || sla <= 0) stopGame(timeLeft <= 0 ? "Schimb finalizat cu succes!" : "Schimb eșuat!");
+            }, 1000);
+            
+            const decayInterval = setInterval(() => { 
+                if(gameActive) {
+                    sla -= 0.65; 
+                    updateUI();
+                }
+            }, 1000);
+
+            const spawnInterval = setInterval(spawnProblem, 4500);
+            
+            activeIntervals.push(timerInterval, decayInterval, spawnInterval);
+            spawnProblem();
+        }
+
+        function isOverlapping(newX, newY, newW, newH) {
+            const windows = document.querySelectorAll('.problem-window');
+            for (let win of windows) {
+                const rect = {
+                    x: parseInt(win.style.left),
+                    y: parseInt(win.style.top),
+                    w: 350,
+                    h: 300
+                };
+                if (newX < rect.x + rect.w + 20 &&
+                    newX + newW + 20 > rect.x &&
+                    newY < rect.y + rect.h + 20 &&
+                    newY + newH + 20 > rect.y) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        function spawnProblem() {
+            if (!gameActive) return;
+
+            const canvas = document.getElementById('game-canvas');
+            const canvasWidth = canvas.clientWidth;
+            const canvasHeight = canvas.clientHeight;
+            const winW = 350;
+            const winH = 300;
+
+            let finalX = 0, finalY = 0;
+            let foundSpot = false;
+            let attempts = 0;
+
+            while (!foundSpot && attempts < 15) {
+                finalX = Math.random() * (canvasWidth - winW - 40) + 20;
+                finalY = Math.random() * (canvasHeight - winH - 40) + 20;
+                if (!isOverlapping(finalX, finalY, winW, winH)) foundSpot = true;
+                attempts++;
+            }
+            if (!foundSpot) return;
+
+            playSnd('snd-spawn');
+
+            let availableProblems = problems.filter(p => !lastFiveIds.includes(p.id));
+            if (availableProblems.length === 0) { lastFiveIds = []; availableProblems = problems; }
+
+            const problem = availableProblems[Math.floor(Math.random() * availableProblems.length)];
+            lastFiveIds.push(problem.id);
+            if (lastFiveIds.length > 5) lastFiveIds.shift();
+
+            const shuffledIndices = problem.options.map((_, i) => i).sort(() => Math.random() - 0.5);
+
+            const div = document.createElement('div');
+            // Decathlon Tech Style Card
+            div.className = 'problem-window glass-panel p-6 rounded-xl border-l-4 border-[#00f0ff]';
+            div.style.left = `${finalX}px`;
+            div.style.top = `${finalY}px`;
+
+            let timeLimit = Math.max(3500, 9500 - (score * 20)); 
+
+            div.innerHTML = `
+                <div class="flex justify-between items-start mb-3">
+                    <h3 class="font-black uppercase italic text-xs tracking-[0.1em] text-white flex items-center">
+                        <i class="fas fa-exclamation-triangle text-[#00f0ff] mr-2"></i>${problem.title}
+                    </h3>
+                    <span class="text-[9px] bg-[#0082C3] px-2 py-1 rounded text-white font-mono">+${problem.points}</span>
+                </div>
+                <p class="text-[11px] text-slate-300 mb-4 font-bold leading-snug">${problem.text}</p>
+                <div class="space-y-2">
+                    ${shuffledIndices.map(idx => `
+                        <button onclick="checkAnswer(this, ${idx === problem.correct}, ${problem.points}, event)" 
+                                class="choice-btn w-full text-left p-3 rounded bg-white/5 text-[10px] font-bold uppercase tracking-wide text-slate-300">
+                            ${problem.options[idx]}
+                        </button>
+                    `).join('')}
+                </div>
+                <div class="mt-4 h-1 bg-slate-700 rounded-full overflow-hidden">
+                    <div class="h-full bg-[#00f0ff]" style="animation: timerBar ${timeLimit}ms linear forwards"></div>
+                </div>
+            `;
+
+            canvas.appendChild(div);
+
+            const timeout = setTimeout(() => {
+                if (div.parentNode) {
+                    div.remove();
+                    updateHealth(-20, null);
+                }
+            }, timeLimit);
+
+            activeIntervals.push(timeout);
+        }
+
+        function checkAnswer(btn, isCorrect, points, event) {
+            if (!gameActive) return;
+            const win = btn.closest('.problem-window');
+            const x = event.clientX;
+            const y = event.clientY;
+            
+            if (isCorrect) {
+                playSnd('snd-correct');
+                score += points;
+                sla = Math.min(100, sla + 8);
+                createFloatingText('+' + points, '#00f0ff', x, y);
+            } else {
+                playSnd('snd-wrong');
+                updateHealth(-25, {x, y});
+                document.getElementById('main-body').classList.add('shake');
+                setTimeout(() => document.getElementById('main-body').classList.remove('shake'), 400);
+            }
+            if(win) win.remove();
+            updateUI();
+        }
+
+        function updateHealth(val, coords) {
+            sla += val;
+            if (sla < 0) sla = 0;
+            if (coords) createFloatingText(val, '#ef4444', coords.x, coords.y);
+            updateUI();
+        }
+
+        function updateUI() {
+            const bar = document.getElementById('sla-bar');
+            const percent = document.getElementById('sla-percent');
+            if (bar) {
+                bar.style.width = sla + "%";
+                // Colors match Decathlon Tech Palette (Blue -> Cyan -> Red)
+                if (sla > 70) {
+                    bar.style.background = '#00f0ff';
+                    bar.style.boxShadow = '0 0 10px #00f0ff';
+                } else if (sla > 30) {
+                    bar.style.background = '#f59e0b';
+                    bar.style.boxShadow = '0 0 10px #f59e0b';
+                } else {
+                    bar.style.background = '#ef4444';
+                    bar.style.boxShadow = '0 0 10px #ef4444';
+                }
+            }
+            if (percent) percent.innerText = Math.round(sla) + "%";
+            const scoreDisp = document.getElementById('score-display');
+            if (scoreDisp) scoreDisp.innerText = score;
+        }
+
+        function stopGame(msg) {
+            gameActive = false;
+            activeIntervals.forEach(clearInterval); 
+            activeIntervals.forEach(clearTimeout);
+
+            let rank = "";
+            let color = "text-white";
+
+            if (score >= 450) { rank = "Decathlon Strategist"; color = "text-[#00f0ff]"; }
+            else if (score >= 250) { rank = "Department Manager"; color = "text-white"; }
+            else if (score >= 100) { rank = "Junior Manager"; color = "text-slate-400"; }
+            else { rank = "Game Over"; color = "text-red-500 animate-pulse"; }
+
+            document.getElementById('game-canvas').innerHTML = `
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <div class="glass-panel p-16 rounded-2xl text-center border-t border-[#00f0ff]/50 shadow-2xl max-w-lg">
+                        <h2 class="text-5xl font-black uppercase italic mb-6 ${color} tracking-tighter">${rank}</h2>
+                        <p class="text-slate-300 mb-10 font-mono text-xs uppercase tracking-widest">${msg}<br><br><span class="text-xl text-white">Scor Final: ${score}</span></p>
+                        <button onclick="location.reload()" class="bg-[#0082C3] text-white px-12 py-4 rounded-sm font-black uppercase text-xs hover:bg-[#00f0ff] hover:text-black transition-all tracking-widest">
+                            Reîncepe Tura
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baptiste Lotodé | Experiență Profesională</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* DECATHLON FARBPALETTE */
+        :root { 
+            --decathlon-blue: #0082C3; 
+            --electric-cyan: #00f0ff;
+            --navy-bg: #0f172a; 
+            --card-bg: rgba(30, 41, 59, 0.7);
+        }
+        
+        body { 
+            background-color: var(--navy-bg); 
+            color: #ffffff; 
+            margin: 0; 
+            overflow-x: hidden; 
+        }
+        
+        .navy-bg {
+            background: radial-gradient(circle at 20% 20%, #1e293b 0%, #0f172a 100%);
+            min-height: 100vh;
+        }
+
+        .glass-panel { 
+            background: rgba(15, 23, 42, 0.8); 
+            backdrop-filter: blur(12px); 
+            border: 1px solid rgba(0, 130, 195, 0.3); 
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Timeline Linie */
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--decathlon-blue), transparent);
+            transform: translateX(-50%);
+            z-index: 0;
+        }
+
+        .job-card {
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+            overflow: hidden; /* Für Bilder */
+        }
+        .job-card:hover {
+            transform: translateX(10px);
+            border-left-color: var(--electric-cyan);
+            background: rgba(0, 130, 195, 0.15);
+        }
+
+        /* Bilder Styling */
+        .job-img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: transform 0.5s ease;
+        }
+        .job-card:hover .job-img {
+            transform: scale(1.02);
+        }
+
+        /* Skill Tags */
+        .skill-tag {
+            background: rgba(0, 130, 195, 0.2);
+            color: var(--electric-cyan);
+            padding: 4px 12px;
+            border-radius: 9999px;
+            font-size: 0.70rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Language Bars */
+        .lang-bar-bg { background: rgba(255,255,255,0.1); height: 6px; border-radius: 3px; overflow: hidden; }
+        .lang-bar-fill { height: 100%; background: var(--electric-cyan); border-radius: 3px; }
+
+        ::selection { background: var(--decathlon-blue); color: white; }
+    </style>
+</head>
+<body class="navy-bg font-sans">
+
+<nav class="fixed w-full z-50 py-6 px-10 bg-slate-900/80 backdrop-blur-lg border-b border-blue-500/10">
+    <div class="max-w-7xl mx-auto flex justify-between items-center text-[10px] font-bold uppercase tracking-[0.3em]">
+        <a href="index.html" class="text-2xl font-black tracking-tighter uppercase group">
+            Baptiste <span class="text-[#0082C3] group-hover:text-white transition">Lotodé</span>
+        </a>
+        <div class="hidden md:flex space-x-10 items-center">
+            <a href="management.html" class="text-[#00f0ff] font-black">Leadership</a> <!-- Active State -->
+            <a href="operations.html" class="hover:text-[#0082C3] transition">Operations</a>
+            <a href="tech.html" class="hover:text-[#0082C3] transition">Strategy</a>
+            <a href="game.html" class="hover:text-[#00f0ff] transition text-blue-400 italic">Ops Challenge</a>
+            <a href="contact.html" class="bg-[#0082C3] text-white px-6 py-2 rounded rounded-tl-xl rounded-br-xl hover:bg-white hover:text-[#0082C3] transition font-black">Contact</a>
+        </div>
+    </div>
+</nav>
+
+    <main class="pt-32 pb-20 px-6 max-w-6xl mx-auto">
+        
+        <!-- Header -->
+        <div class="text-center mb-20">
+            <h1 class="text-5xl md:text-7xl font-black uppercase tracking-tighter mb-6">
+                Career <span class="text-[#0082C3]">Trajectory</span>
+            </h1>
+            <p class="text-slate-400 max-w-2xl mx-auto text-lg">
+                De la "Crew" la "Junior Manager". Un parcurs de 10+ ani definit de responsabilitate, leadership operațional și pasiune pentru lucrul cu oamenii.
+            </p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-12">
+            
+            <!-- LEFT COLUMN: EXPERIENCE (Timeline) -->
+            <div class="md:col-span-2 space-y-12 relative">
+                <!-- Timeline Line (Visual only) -->
+                <div class="absolute left-0 top-4 bottom-0 w-px bg-gradient-to-b from-[#0082C3] to-transparent opacity-30 hidden md:block"></div>
+
+                <!-- JOB 1: McDonald's (JUNIOR MANAGER) -->
+                <div class="job-card glass-panel p-6 md:p-8 rounded-xl relative ml-0 md:ml-8 border-l-4 border-[#00f0ff]">
+                    <div class="absolute -left-[39px] top-8 w-5 h-5 bg-[#00f0ff] rounded-full border-4 border-[#0f172a] hidden md:block shadow-[0_0_15px_#00f0ff]"></div>
+                    
+                    <!-- IMAGE -->
+                    <img src="image_08ce52.jpg" alt="McDonalds Gmunden" class="job-img">
+
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h3 class="text-2xl font-bold text-white">Junior Manager & Crew Leader</h3>
+                            <a href="https://www.mcdonalds.at/" target="_blank" class="text-[#0082C3] font-mono mt-1 hover:text-[#00f0ff] transition flex items-center gap-2">
+                                Krainz Systemgastronomie (McDonald's) <i class="fas fa-external-link-alt text-xs"></i>
+                            </a>
+                        </div>
+                        <span class="text-xs text-white font-bold font-mono bg-[#0082C3] px-3 py-1 rounded">2019 - 2025</span>
+                    </div>
+                    <!-- Updated Description with KPI Focus -->
+                    <p class="text-slate-300 text-sm leading-relaxed mb-6">
+                        Management operațional complet. Monitorizarea și optimizarea <strong>KPI-urilor critice</strong> (Labor Cost, Food Waste, SOS - Speed of Service). Implementarea strategiilor pentru creșterea profitabilității și coordonarea echipelor mari în regim High-Volume.
+                    </p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="skill-tag">KPI Analysis</span>
+                        <span class="skill-tag">Profit & Loss Control</span>
+                        <span class="skill-tag">Shift Management</span>
+                        <span class="skill-tag">Team Development</span>
+                    </div>
+                </div>
+
+                <!-- JOB 2: Hospitality Berlin (Drei Schwestern / Cafe am neuen See) -->
+                <div class="job-card glass-panel p-6 md:p-8 rounded-xl relative ml-0 md:ml-8">
+                    <div class="absolute -left-[39px] top-8 w-5 h-5 bg-[#0082C3] rounded-full border-4 border-[#0f172a] hidden md:block"></div>
+                    
+                    <!-- IMAGE -->
+                    <img src="image_08749a.jpg" alt="Berlin Hospitality" class="job-img">
+
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h3 class="text-2xl font-bold text-white">Berlin Hospitality Professional</h3>
+                            <div class="flex flex-col text-sm text-[#0082C3] font-mono mt-1">
+                                <a href="https://www.cafeamneuensee.de/" target="_blank" class="hover:text-[#00f0ff] transition flex items-center gap-2">
+                                    • Café am Neuen See (Roland Mary) <i class="fas fa-external-link-alt text-[10px]"></i>
+                                </a>
+                                <!-- Updated Link for Drei Schwestern -->
+                                <a href="https://www.3schwestern.com/" target="_blank" class="hover:text-[#00f0ff] transition flex items-center gap-2">
+                                    • Drei Schwestern (Kunstquartier) <i class="fas fa-external-link-alt text-[10px]"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <span class="text-xs text-slate-500 font-mono border border-slate-700 px-2 py-1 rounded">2017 - 2019</span>
+                    </div>
+                    <p class="text-slate-300 text-sm leading-relaxed mb-6">
+                        Două extreme ale gastronomiei de top din Berlin: Atmosfera istorică și rafinată de la <strong>Drei Schwestern</strong> combinată cu volumul imens și standardele celebrului <strong>Café am Neuen See</strong>. Excelență în servicii sub presiune constantă.
+                    </p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="skill-tag">High-End Service</span>
+                        <span class="skill-tag">Volume Agility</span>
+                        <span class="skill-tag">Roland Mary Group</span>
+                    </div>
+                </div>
+
+                <!-- JOB 3: Sportzentrum Mehliskopf -->
+                <div class="job-card glass-panel p-6 md:p-8 rounded-xl relative ml-0 md:ml-8">
+                    <div class="absolute -left-[39px] top-8 w-5 h-5 bg-[#0082C3] rounded-full border-4 border-[#0f172a] hidden md:block"></div>
+                    
+                    <!-- IMAGE -->
+                    <img src="csm_IMG_9860_e7e359e88b.jpg" alt="Mehliskopf Safety" class="job-img object-top">
+
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h3 class="text-2xl font-bold text-white">Instructor Sportiv & Siguranță</h3>
+                            <a href="https://mehliskopf.de/en/mehliskopf/tradition-since-1970" target="_blank" class="text-[#0082C3] font-mono mt-1 hover:text-[#00f0ff] transition flex items-center gap-2">
+                                Sportzentrum Mehliskopf <i class="fas fa-external-link-alt text-xs"></i>
+                            </a>
+                        </div>
+                        <span class="text-xs text-slate-500 font-mono border border-slate-700 px-2 py-1 rounded">2013 - 2016</span>
+                    </div>
+                    <p class="text-slate-300 text-sm leading-relaxed mb-6">
+                        Responsabil direct de siguranța vizitatorilor și instruirea tehnică pentru echipamente. Rol activ (hands-on) care a combinat pasiunea pentru sport cu responsabilitatea operațională strictă.
+                    </p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="skill-tag">Safety Protocols</span>
+                        <span class="skill-tag">Instructor</span>
+                        <span class="skill-tag">Outdoor Ops</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- RIGHT COLUMN: SKILLS & EDUCATION -->
+            <div class="space-y-8">
+                
+                <!-- Education Card -->
+                <div class="glass-panel p-8 rounded-xl border-t border-[#00f0ff]/30">
+                    <h3 class="text-xl font-black uppercase mb-6 flex items-center">
+                        <i class="fas fa-graduation-cap text-[#00f0ff] mr-3"></i> Educație
+                    </h3>
+                    <div class="mb-6">
+                        <h4 class="font-bold text-white">Staatl. gepr. Wirtschaftsassistent</h4>
+                        <p class="text-slate-400 text-sm">Merkur Akademie, Karlsruhe (2012)</p>
+                        <p class="text-xs text-slate-500 mt-2">Focus: Economie & Limbi Străine</p>
+                    </div>
+                </div>
+
+                <!-- Languages Card (Cleaned Version) -->
+                <div class="glass-panel p-8 rounded-xl">
+                    <h3 class="text-xl font-black uppercase mb-6 flex items-center">
+                        <i class="fas fa-globe text-[#00f0ff] mr-3"></i> Limbi Străine
+                    </h3>
+                    
+                    <div class="space-y-5">
+                        <!-- DEUTSCH -->
+                        <div>
+                            <div class="flex justify-between text-xs font-bold uppercase mb-1">
+                                <span>Germană</span>
+                                <span class="text-[#00f0ff]">100%</span>
+                            </div>
+                            <div class="lang-bar-bg"><div class="lang-bar-fill" style="width: 100%"></div></div>
+                        </div>
+
+                        <!-- ENGLISCH -->
+                        <div>
+                            <div class="flex justify-between text-xs font-bold uppercase mb-1">
+                                <span>Engleză</span>
+                                <span class="text-[#00f0ff]">90%</span>
+                            </div>
+                            <div class="lang-bar-bg"><div class="lang-bar-fill" style="width: 90%"></div></div>
+                        </div>
+
+                        <!-- SPANISCH -->
+                        <div>
+                            <div class="flex justify-between text-xs font-bold uppercase mb-1">
+                                <span>Spaniolă</span>
+                                <span class="text-[#00f0ff]">85%</span>
+                            </div>
+                            <div class="lang-bar-bg"><div class="lang-bar-fill" style="width: 85%"></div></div>
+                        </div>
+
+                        <!-- RUMÄNISCH -->
+                        <div>
+                            <div class="flex justify-between text-xs font-bold uppercase mb-1">
+                                <span>Română</span>
+                                <span class="text-[#00f0ff]">80%</span>
+                            </div>
+                            <div class="lang-bar-bg"><div class="lang-bar-fill" style="width: 80%"></div></div>
+                        </div>
+
+                        <!-- FRANZÖSISCH -->
+                        <div>
+                            <div class="flex justify-between text-xs font-bold uppercase mb-1">
+                                <span>Franceză</span>
+                                <span class="text-[#00f0ff]">80%</span>
+                            </div>
+                            <div class="lang-bar-bg"><div class="lang-bar-fill" style="width: 80%"></div></div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 pt-6 border-t border-white/10 text-center">
+                        <p class="text-xs text-slate-400 italic">"Ideal pentru mediul internațional Decathlon"</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        
+    </main>
+
+</body>
+</html>

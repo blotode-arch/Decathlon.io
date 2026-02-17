@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baptiste Lotodé | Retail Strategist</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* DECATHLON FARBPALETTE */
+        :root { 
+            --decathlon-blue: #0082C3; 
+            --electric-cyan: #00f0ff;
+            --navy-bg: #0f172a; 
+            --card-bg: rgba(30, 41, 59, 0.7);
+        }
+        
+        body { 
+            background-color: var(--navy-bg); 
+            color: #ffffff; 
+            margin: 0; 
+            overflow-x: hidden; 
+        }
+        
+        .navy-bg {
+            background: radial-gradient(circle at 20% 20%, #1e293b 0%, #0f172a 100%);
+            min-height: 100vh;
+        }
+
+        /* BACKGROUND TEXT: DYNAMIC */
+        .velocity-text { 
+            -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.08); 
+            color: transparent; 
+            font-size: 20rem; 
+            position: absolute;
+            top: 40%;
+            left: -120%;
+            transform: translateY(-50%);
+            white-space: nowrap;
+            z-index: 0;
+            animation: slideIn 1.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+            animation-delay: 0.3s;
+        }
+        @keyframes slideIn { to { left: -5%; } }
+
+        .glass-panel { 
+            background: rgba(15, 23, 42, 0.7); 
+            backdrop-filter: blur(12px); 
+            border: 1px solid rgba(0, 130, 195, 0.3); 
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Feature Cards */
+        .feature-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--decathlon-blue);
+            box-shadow: 0 10px 30px -10px rgba(0, 130, 195, 0.3);
+        }
+
+        .photo-glow { 
+            border: 3px solid var(--decathlon-blue); 
+            box-shadow: 0 0 30px rgba(0, 130, 195, 0.3); 
+            animation: pulse-blue-stable 4s infinite ease-in-out;
+        }
+        @keyframes pulse-blue-stable {
+            0% { box-shadow: 0 0 30px rgba(0, 130, 195, 0.3); border-color: var(--decathlon-blue); }
+            50% { box-shadow: 0 0 50px rgba(0, 130, 195, 0.5); border-color: #3b82f6; } 
+            100% { box-shadow: 0 0 30px rgba(0, 130, 195, 0.3); border-color: var(--decathlon-blue); }
+        }
+
+        .pulse-dot { animation: pulse-dot-blue 2s infinite; }
+        @keyframes pulse-dot-blue {
+            0% { opacity: 1; transform: scale(1); background-color: var(--decathlon-blue); }
+            50% { opacity: 0.7; transform: scale(0.9); background-color: var(--electric-cyan); }
+            100% { opacity: 1; transform: scale(1); background-color: var(--decathlon-blue); }
+        }
+
+        .cursor { border-right: 2px solid var(--electric-cyan); animation: blink 1s infinite; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+        .scroll-down { animation: bounce 2s infinite; }
+        @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 40% {transform: translateY(-10px);} 60% {transform: translateY(-5px);} }
+
+        ::selection { background: var(--decathlon-blue); color: white; }
+    </style>
+</head>
+<body class="navy-bg font-sans">
+
+<nav class="fixed w-full z-50 py-6 px-10 bg-slate-900/80 backdrop-blur-lg border-b border-blue-500/10">
+    <div class="max-w-7xl mx-auto flex justify-between items-center text-[10px] font-bold uppercase tracking-[0.3em]">
+        <a href="index.html" class="text-2xl font-black tracking-tighter uppercase group">
+            Baptiste <span class="text-[#0082C3] group-hover:text-white transition">Lotodé</span>
+        </a>
+        <div class="hidden md:flex space-x-10 items-center">
+            <a href="management.html" class="hover:text-[#0082C3] transition">Leadership</a>
+            <a href="operations.html" class="hover:text-[#0082C3] transition">Operations</a>
+            <a href="tech.html" class="hover:text-[#0082C3] transition">Strategy</a>
+            <a href="game.html" class="hover:text-[#00f0ff] transition text-blue-400 italic">Ops Challenge</a>
+            <a href="contact.html" class="bg-[#0082C3] text-white px-6 py-2 rounded rounded-tl-xl rounded-br-xl hover:bg-white hover:text-[#0082C3] transition font-black">Contact</a>
+        </div>
+    </div>
+</nav>
+
+    <!-- HERO SECTION -->
+    <main class="relative pt-32 pb-10 px-6 max-w-7xl mx-auto grid md:grid-cols-2 gap-20 items-center min-h-screen">
+        <div class="velocity-text font-black uppercase select-none pointer-events-none">DYNAMIC</div>
+
+        <div class="z-10 flex flex-col justify-center h-full">
+            <div class="glass-panel p-6 rounded-xl w-full max-w-sm mb-8 font-mono text-[11px] min-h-[120px]">
+                <div class="flex space-x-2 mb-4">
+                    <div class="w-3 h-3 bg-blue-500 rounded-full pulse-dot"></div>
+                    <div class="w-2 h-2 bg-slate-700 rounded-full"></div>
+                    <div class="w-2 h-2 bg-slate-700 rounded-full"></div>
+                </div>
+                <div id="terminal-text" class="space-y-1"></div>
+                <p class="text-blue-300 mt-1">manager@baptiste:~$ <span class="cursor"></span></p>
+            </div>
+
+            <h1 class="text-7xl md:text-8xl font-black uppercase tracking-tighter leading-[0.9] mb-8">
+                Retail <br><span class="text-[#0082C3] italic">Strategist</span>
+            </h1>
+            
+            <div class="space-y-6 text-slate-300 max-w-lg mb-12 border-l-4 border-[#0082C3] pl-8">
+                <p class="text-xl leading-relaxed italic text-white">
+                    "Nu trebuie să fii atlet olimpic ca să conduci o echipă campioană. Performanța se măsoară în rezultate, organizare și coeziune."
+                </p>
+                <p class="text-sm leading-relaxed">
+                    Aduc o perspectivă analitică și structurată în inima magazinului. Ca Manager de Departament, mă concentrez pe optimizarea fluxurilor, dezvoltarea oamenilor și atingerea obiectivelor comerciale cu precizie.
+                </p>
+            </div>
+
+            <div class="flex items-center space-x-6">
+                <a href="#skills" class="bg-[#0082C3] text-white px-10 py-4 rounded-sm font-black uppercase text-sm hover:bg-[#00f0ff] hover:text-black transition shadow-[0_0_20px_rgba(0,130,195,0.4)]">
+                    View Strategy
+                </a>
+            </div>
+        </div>
+
+        <div class="z-10 flex flex-col justify-center items-center space-y-12">
+            <div class="relative">
+                <div class="w-80 h-80 rounded-full photo-glow overflow-hidden bg-slate-800 border-4 border-slate-700/50 relative z-10">
+                    <img src="me.jpg" alt="Baptiste Lotodé" class="w-full h-full object-cover grayscale hover:grayscale-0 transition duration-700">
+                    <div class="absolute inset-0 flex items-center justify-center bg-slate-900/50 text-white/20 -z-10">
+                        <i class="fas fa-stopwatch text-8xl"></i>
+                    </div>
+                </div>
+                <!-- Deko Elemente -->
+                <div class="absolute top-0 right-0 w-20 h-20 border-t-2 border-r-2 border-[#00f0ff] rounded-tr-3xl -mt-4 -mr-4 opacity-50"></div>
+                <div class="absolute bottom-0 left-0 w-20 h-20 border-b-2 border-l-2 border-[#00f0ff] rounded-bl-3xl -mb-4 -ml-4 opacity-50"></div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-6 w-full max-w-md">
+                <div class="glass-panel p-6 rounded-2xl text-center border-t border-blue-500/30 group hover:bg-blue-900/20 transition">
+                    <span class="block text-4xl font-black text-white group-hover:text-[#00f0ff] transition">30+</span>
+                    <span class="text-[10px] uppercase font-bold text-[#0082C3] tracking-widest">Team Members</span>
+                </div>
+                <div class="glass-panel p-6 rounded-2xl text-center border-t border-slate-600/30 group hover:bg-blue-900/20 transition">
+                    <span class="block text-4xl font-black text-white group-hover:text-[#00f0ff] transition">ROI</span>
+                    <span class="text-[10px] uppercase font-bold text-slate-400 tracking-widest">Focus</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 text-slate-500 text-2xl scroll-down">
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </main>
+
+    <!-- NEW SECTION: TACTICAL TOOLKIT -->
+    <section id="skills" class="py-24 bg-slate-900/50 relative border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-black uppercase tracking-tight mb-4">Tactical <span class="text-[#0082C3]">Toolkit</span></h2>
+                <p class="text-slate-400 max-w-2xl mx-auto">Abordarea mea managerială este construită pe trei piloni esențiali, adaptați pentru mediul dinamic de la Decathlon.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Card 1: Analiză Comercială (Zurück zu KPIs) -->
+                <div class="feature-card p-8 rounded-xl relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition text-6xl text-[#0082C3]">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center text-[#00f0ff] mb-6">
+                        <i class="fas fa-search-dollar text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold uppercase mb-3">Analiză Comercială</h3>
+                    <p class="text-sm text-slate-400 leading-relaxed">
+                        Transform datele brute în strategii de vânzare. Monitorizez stocurile, marja și rotația produselor pentru a maximiza profitabilitatea fiecărui metru pătrat din raion.
+                    </p>
+                </div>
+
+                <!-- Card 2: Team Captaincy (Hier ist der neue Hands-on Satz) -->
+                <div class="feature-card p-8 rounded-xl relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition text-6xl text-[#0082C3]">
+                        <i class="fas fa-users-cog"></i>
+                    </div>
+                    <div class="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center text-[#00f0ff] mb-6">
+                        <i class="fas fa-user-shield text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold uppercase mb-3">Team Captaincy</h3>
+                    <p class="text-sm text-slate-400 leading-relaxed">
+                        Leadership înseamnă să fii în serviciul echipei. Deși focusul meu este pe strategie, <strong>am o abordare "hands-on" și lucrez cot la cot cu echipa</strong> atunci când situația din magazin o cere.
+                    </p>
+                </div>
+
+                <!-- Card 3: Local Advantage -->
+                <div class="feature-card p-8 rounded-xl relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition text-6xl text-[#0082C3]">
+                        <i class="fas fa-map-marked-alt"></i>
+                    </div>
+                    <div class="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center text-[#00f0ff] mb-6">
+                        <i class="fas fa-home text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold uppercase mb-3">Local Advantage</h3>
+                    <p class="text-sm text-slate-400 leading-relaxed">
+                        Locuind în Florești, înțeleg pulsul comunității locale și fluxul specific de clienți al VIVO! Mall. Sunt conectat la realitatea din teren.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER CTA -->
+    <footer class="py-12 border-t border-white/10 bg-[#0f172a] text-center">
+        <p class="text-slate-500 text-sm mb-6">Gata să intrăm în joc?</p>
+        <a href="contact.html" class="inline-flex items-center space-x-2 text-white font-bold text-lg hover:text-[#00f0ff] transition">
+            <span>Contactează-mă pentru interviu</span>
+            <i class="fas fa-arrow-right"></i>
+        </a>
+    </footer>
+
+    <script>
+        const terminal = document.getElementById('terminal-text');
+        
+        const lines = [
+            { text: ">> load: RETAIL_OPS_MODULE", color: "text-[#00f0ff]" },
+            { text: ">> target: Decathlon Florești (VIVO!)", color: "text-white" },
+            { text: ">> status: READY_TO_OPTIMIZE", color: "text-green-400" }
+        ];
+
+        let lineIdx = 0, charIdx = 0;
+
+        function type() {
+            if (lineIdx < lines.length) {
+                if (charIdx === 0) {
+                    const p = document.createElement('p');
+                    p.className = lines[lineIdx].color;
+                    terminal.appendChild(p);
+                }
+                terminal.lastChild.textContent += lines[lineIdx].text[charIdx];
+                charIdx++;
+                if (charIdx < lines[lineIdx].text.length) {
+                    setTimeout(type, 30);
+                } else {
+                    lineIdx++;
+                    charIdx = 0;
+                    setTimeout(type, 600);
+                }
+            }
+        }
+        window.onload = type;
+    </script>
+
+</body>
+</html>
