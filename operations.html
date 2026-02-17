@@ -3,137 +3,166 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Baptiste Lotodé | Operations Masterclass</title>
+    <title>Baptiste Lotodé | Operations Excellence</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root { --crimson: #990000; --anthracite: #121212; }
-        body { background-color: var(--anthracite); color: #f8fafc; margin: 0; overflow-x: hidden; }
-        .glass { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); transition: all 0.4s ease; }
-        .glass:hover { border-color: var(--crimson); background: rgba(153, 0, 0, 0.03); }
-        .text-outline { -webkit-text-stroke: 1px rgba(255, 255, 255, 0.1); color: transparent; }
-        
-        .pulse-node {
-            width: 10px; height: 10px; background: var(--crimson); border-radius: 50%;
-            display: inline-block; margin-right: 10px; animation: pulse-red 2s infinite;
+        /* DECATHLON TECH PALETTE */
+        :root { 
+            --decathlon-blue: #0082C3; 
+            --electric-cyan: #00f0ff; 
+            --navy-bg: #0f172a; 
         }
-        @keyframes pulse-red {
-            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(153, 0, 0, 0.7); }
-            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(153, 0, 0, 0); }
-            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(153, 0, 0, 0); }
+        
+        body { 
+            background-color: var(--navy-bg); 
+            color: #ffffff; 
+            margin: 0; 
+            overflow-x: hidden; 
+            font-family: 'Inter', sans-serif; 
+        }
+        
+        .navy-bg {
+            background: radial-gradient(circle at 50% 50%, #1e293b 0%, #0f172a 100%);
+            min-height: 100vh;
+        }
+
+        .glass-panel { 
+            background: rgba(255, 255, 255, 0.02); 
+            backdrop-filter: blur(20px); 
+            border: 1px solid rgba(0, 130, 195, 0.2); 
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-panel:hover {
+            border-color: var(--electric-cyan);
+            background: rgba(0, 130, 195, 0.05);
+            transform: translateY(-5px);
+        }
+
+        .text-outline { 
+            -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.05); 
+            color: transparent; 
+        }
+
+        .stat-card {
+            border-left: 4px solid var(--decathlon-blue);
         }
     </style>
 </head>
-<body class="font-sans antialiased">
+<body class="navy-bg">
 
-<nav class="fixed w-full z-50 py-6 px-10 bg-slate-900/90 backdrop-blur-lg border-b border-blue-500/10">
-    <div class="max-w-7xl mx-auto flex justify-between items-center text-[10px] font-bold uppercase tracking-[0.3em]">
-        <a href="index.html" class="text-2xl font-black tracking-tighter uppercase group">
-            Baptiste <span class="text-[#0082C3] group-hover:text-white transition">Lotodé</span>
-        </a>
-        <div class="hidden md:flex space-x-10 items-center">
-            <a href="management.html" class="hover:text-[#0082C3] transition">Leadership</a>
-            <a href="operations.html" class="hover:text-[#0082C3] transition">Operations</a>
-            <a href="tech.html" class="hover:text-[#0082C3] transition">Strategy</a>
-            <a href="game.html" class="hover:text-[#00f0ff] transition italic">Ops Challenge</a>
-            <a href="manager_game.html" class="hover:text-[#00f0ff] transition italic">KPI Mastermind</a>
-            <a href="contact.html" class="bg-[#0082C3] text-white px-6 py-2 rounded-tl-xl rounded-br-xl hover:bg-white hover:text-[#0082C3] transition font-black">Contact</a>
+    <!-- NAVIGATION -->
+    <nav class="fixed w-full z-50 py-6 px-10 bg-slate-900/90 backdrop-blur-lg border-b border-blue-500/10">
+        <div class="max-w-7xl mx-auto flex justify-between items-center text-[10px] font-bold uppercase tracking-[0.3em]">
+            <a href="index.html" class="text-2xl font-black tracking-tighter uppercase">Baptiste <span class="text-[#0082C3]">Lotodé</span></a>
+            <div class="hidden md:flex space-x-10 items-center text-slate-400">
+                <a href="management.html" class="hover:text-[#0082C3] transition">Leadership</a>
+                <a href="operations.html" class="text-[#00f0ff] font-black underline">Operations</a>
+                <a href="tech.html" class="hover:text-[#0082C3] transition">Strategy</a>
+                <a href="game.html" class="hover:text-[#00f0ff] transition italic">Ops Challenge</a>
+                <a href="manager_game.html" class="hover:text-[#00f0ff] transition italic">KPI Mastermind</a>
+                <a href="contact.html" class="bg-[#0082C3] text-white px-6 py-2 rounded-tl-xl rounded-br-xl hover:bg-white hover:text-[#0082C3] transition font-black">Contact</a>
+            </div>
         </div>
-        <!-- Mobile Menu Icon (Placeholder für später) -->
-        <div class="md:hidden text-white"><i class="fas fa-bars text-xl"></i></div>
-    </div>
-</nav>
-    <header class="pt-48 pb-20 text-center relative">
-        <div class="absolute top-20 left-1/2 -translate-x-1/2 text-[15rem] font-black text-outline uppercase select-none pointer-events-none z-0">Method</div>
-        <h1 class="text-6xl md:text-8xl font-black uppercase tracking-tighter italic z-10 relative">Operations <br><span class="text-red-700">Playbook</span></h1>
-        <p class="text-gray-500 mt-6 uppercase tracking-widest font-bold text-sm">Strategii de execuție pentru volume mari și standarde de elită</p>
+    </nav>
+
+    <!-- HEADER SECTION -->
+    <header class="pt-48 pb-20 px-6 max-w-7xl mx-auto relative">
+        <div class="absolute top-20 left-0 text-[8rem] md:text-[15rem] font-black text-outline uppercase select-none pointer-events-none z-0">
+            Method
+        </div>
+        <div class="relative z-10">
+            <h1 class="text-6xl md:text-8xl font-black uppercase tracking-tighter leading-tight italic">
+                Operations<br><span class="text-[#0082C3]">Masterclass</span>
+            </h1>
+            <p class="text-slate-400 max-w-2xl mt-8 text-lg border-l-4 border-[#00f0ff] pl-6">
+                În retail-ul sportiv, fiecare secundă contează. De la recepția echipamentelor voluminoase până la fluidizarea caselor self-checkout, transform procesele complexe în eficiență pură.
+            </p>
+        </div>
     </header>
 
-    <section class="max-w-7xl mx-auto px-6 grid md:grid-cols-3 gap-8 pb-20">
-        <div class="glass p-10 rounded-[3rem] border-l-4 border-red-700">
-            <h3 class="text-xl font-black uppercase mb-4 italic">Managementul KPI</h3>
-            <p class="text-gray-400 text-sm leading-relaxed mb-6">Analiza în timp real a indicatorilor **SLA** și **OEPE**. Nu doar urmăresc cifrele, ci le anticipez prin recalibrarea constantă a echipei pentru a evita blocajele în orele de vârf.</p>
-            <div class="flex items-center text-[10px] font-bold text-red-700 uppercase tracking-widest">
-                <i class="fas fa-microchip mr-2"></i> Data-Driven Leadership
+    <!-- CORE COMPETENCIES -->
+    <section class="max-w-7xl mx-auto px-6 grid md:grid-cols-3 gap-8 pb-32 relative z-10">
+        <!-- FLUXUL ÎN MAGAZIN -->
+        <div class="glass-panel p-10 rounded-[2.5rem] stat-card">
+            <div class="w-12 h-12 bg-blue-500/10 rounded-full flex items-center justify-center mb-6">
+                <i class="fas fa-users-cog text-[#00f0ff]"></i>
             </div>
-        </div>
-
-        <div class="glass p-10 rounded-[3rem] border-l-4 border-gray-700">
-            <h3 class="text-xl font-black uppercase mb-4 italic">Integritatea Stocului</h3>
-            <p class="text-gray-400 text-sm leading-relaxed mb-6">Implementarea riguroasă a standardelor **FIFO** și **HACCP**. Gestionarea fluxurilor logistice pentru a garanta că fiecare articol este la locul potrivit, optimizând rotația și reducând pierderile.</p>
-            <div class="flex items-center text-[10px] font-bold text-gray-500 uppercase tracking-widest">
-                <i class="fas fa-boxes mr-2"></i> Supply Chain Precision
-            </div>
-        </div>
-
-        <div class="glass p-10 rounded-[3rem] border-l-4 border-gray-700">
-            <h3 class="text-xl font-black uppercase mb-4 italic">Leadership de Volum</h3>
-            <p class="text-gray-400 text-sm leading-relaxed mb-6">Coordonarea a peste **30 de specialiști** per schimb. Focus pe training, siguranță și motivare, transformând diversitatea lingvistică într-un avantaj competitiv operativ.</p>
-            <div class="flex items-center text-[10px] font-bold text-gray-500 uppercase tracking-widest">
-                <i class="fas fa-users mr-2"></i> Human Capital ROI
-            </div>
-        </div>
-    </section>
-
-    <section class="max-w-7xl mx-auto px-6 pb-20">
-        <div class="glass p-12 rounded-[4rem] relative overflow-hidden">
-            <div class="absolute top-0 right-0 p-10 opacity-5 text-9xl font-black italic">Clockwork</div>
-            <h2 class="text-4xl font-black uppercase italic mb-12 tracking-tighter text-red-700">Ritmu Operativ: O Zi de Succes</h2>
-            
-            <div class="grid md:grid-cols-4 gap-8">
-                <div class="space-y-4">
-                    <span class="text-red-700 font-black">01. Setup</span>
-                    <h4 class="font-bold uppercase text-xs tracking-widest">Analiza & Briefing</h4>
-                    <p class="text-xs text-gray-500 leading-relaxed">Evaluarea obiectivelor zilei, verificarea sistemelor hardware și alinierea echipei pe prioritățile de vânzare.</p>
-                </div>
-                <div class="space-y-4 border-l border-white/5 pl-6">
-                    <span class="text-white font-black">02. Execution</span>
-                    <h4 class="font-bold uppercase text-xs tracking-widest">Peak Management</h4>
-                    <p class="text-xs text-gray-500 leading-relaxed">Monitorizarea activă a zonelor critice (Case, Fitting Rooms, Stock) și redistribuirea resurselor în timp real.</p>
-                </div>
-                <div class="space-y-4 border-l border-white/5 pl-6">
-                    <span class="text-white font-black">03. Audit</span>
-                    <h4 class="font-bold uppercase text-xs tracking-widest">Control Calitate</h4>
-                    <p class="text-xs text-gray-500 leading-relaxed">Verificarea standardelor vizuale și a integrității operaționale. Audit rapid pe stoc și proceduri de siguranță.</p>
-                </div>
-                <div class="space-y-4 border-l border-white/5 pl-6">
-                    <span class="text-white font-black">04. Report</span>
-                    <h4 class="font-bold uppercase text-xs tracking-widest">Debrifare & Handover</h4>
-                    <p class="text-xs text-gray-500 leading-relaxed">Analiza rezultatelor vs target, identificarea punctelor de îmbunătățire și predarea schimbului către echipa următoare.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="max-w-7xl mx-auto px-6 pb-40 grid md:grid-cols-2 gap-8">
-        <div class="glass p-10 rounded-[3rem] border-t-2 border-red-700">
-            <h3 class="text-2xl font-black uppercase mb-6 italic tracking-tighter">Troubleshooting în Timp Real</h3>
-            <p class="text-gray-400 text-sm leading-relaxed mb-6">
-                Am fost întotdeauna persoana apelată când sistemele eșuează. De la erori de server POS până la gestionarea conflictelor de echipă, abordarea mea este calmă și orientată spre soluție imediată. Într-un mediu ca Inditex, fiecare secundă de downtime înseamnă pierderi; misiunea mea este **Zero Downtime**.
+            <h3 class="text-xl font-black uppercase mb-4 italic">Managementul Fluxului</h3>
+            <p class="text-slate-400 text-sm leading-relaxed mb-6">
+                Optimizarea traseului clientului în magazin. Analizez punctele de congestie la Decathlon VIVO! și implementez soluții rapide pentru a menține un SLA ridicat în timpul vârfurilor de weekend.
             </p>
-            <div class="flex gap-4">
-                <span class="bg-red-900/20 text-red-600 px-4 py-1 rounded-full text-[9px] font-bold uppercase">Rapid Response</span>
-                <span class="bg-white/5 text-gray-400 px-4 py-1 rounded-full text-[9px] font-bold uppercase">Conflict Resolution</span>
+            <div class="flex gap-2">
+                <span class="text-[8px] font-black bg-white/5 px-3 py-1 rounded-full uppercase text-[#00f0ff]">Flow Optimization</span>
             </div>
         </div>
 
-        <div class="glass p-10 rounded-[3rem] border-t-2 border-white/5">
-            <h3 class="text-2xl font-black uppercase mb-6 italic tracking-tighter text-white">Viziunea: Retail-ul 4.0</h3>
-            <p class="text-gray-400 text-sm leading-relaxed mb-6">
-                Viitorul Inditex în Cluj nu este doar despre haine, ci despre date. Integrarea **RFID** și a sistemelor inteligente de inventar necesită un Operations Manager care înțelege tehnologia. Prin experiența mea cu **GetRoomzy**, aduc acea mentalitate de automatizare care eficientizează munca manuală.
+        <!-- LOGISTICA & STOC -->
+        <div class="glass-panel p-10 rounded-[2.5rem] stat-card">
+            <div class="w-12 h-12 bg-blue-500/10 rounded-full flex items-center justify-center mb-6">
+                <i class="fas fa-boxes text-[#00f0ff]"></i>
+            </div>
+            <h3 class="text-xl font-black uppercase mb-4 italic">Stock Integrity</h3>
+            <p class="text-slate-400 text-sm leading-relaxed mb-6">
+                Garantez acuratețea stocului prin utilizarea inteligentă a tehnologiei RFID. Reducerea pierderilor și asigurarea disponibilității produselor esențiale pentru sportivi este prioritatea mea zero.
             </p>
-            <div class="flex gap-4">
-                <span class="bg-white/5 text-gray-400 px-4 py-1 rounded-full text-[9px] font-bold uppercase">RFID Ready</span>
-                <span class="bg-white/5 text-gray-400 px-4 py-1 rounded-full text-[9px] font-bold uppercase">Automation Mindset</span>
+            <div class="flex gap-2">
+                <span class="text-[8px] font-black bg-white/5 px-3 py-1 rounded-full uppercase text-[#00f0ff]">RFID Expert</span>
+            </div>
+        </div>
+
+        <!-- LEADERSHIP DE ECHIPA -->
+        <div class="glass-panel p-10 rounded-[2.5rem] stat-card">
+            <div class="w-12 h-12 bg-blue-500/10 rounded-full flex items-center justify-center mb-6">
+                <i class="fas fa-running text-[#00f0ff]"></i>
+            </div>
+            <h3 class="text-xl font-black uppercase mb-4 italic">People Power</h3>
+            <p class="text-slate-400 text-sm leading-relaxed mb-6">
+                Coordonarea echipei prin pasiune pentru sport. Creez programe de training care transformă colegii în consilieri tehnici capabili să gestioneze volume mari de clienți fără a sacrifica calitatea.
+            </p>
+            <div class="flex gap-2">
+                <span class="text-[8px] font-black bg-white/5 px-3 py-1 rounded-full uppercase text-[#00f0ff]">Team Coaching</span>
             </div>
         </div>
     </section>
 
-    <footer class="py-12 text-center text-gray-800 text-[10px] font-bold uppercase tracking-[0.5em]">
-        Cluj-Napoca • Arhitect al Eficienței • 2026
+    <!-- VISION SECTION -->
+    <section class="max-w-7xl mx-auto px-6 pb-40">
+        <div class="glass-panel p-12 md:p-20 rounded-[4rem] border-t-4 border-[#0082C3]">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="text-4xl md:text-5xl font-black uppercase italic mb-8">Viziunea: <span class="text-[#00f0ff]">Retail 4.0</span></h2>
+                    <p class="text-slate-300 text-lg leading-relaxed mb-8">
+                        Viitorul Decathlon în Cluj nu este doar despre vânzarea de articole sportive, ci despre integrarea serviciilor digitale în experiența fizică. Automatizarea sarcinilor repetitive prin tehnologie îmi permite să realoc resursele umane acolo unde contează: **la client.**
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <div class="bg-[#0f172a] border border-white/10 px-6 py-3 rounded-xl">
+                            <span class="block text-[#00f0ff] font-black text-xl">100%</span>
+                            <span class="text-[9px] uppercase font-bold text-slate-500">Commitment to Quality</span>
+                        </div>
+                        <div class="bg-[#0f172a] border border-white/10 px-6 py-3 rounded-xl">
+                            <span class="block text-[#00f0ff] font-black text-xl">PRO</span>
+                            <span class="text-[9px] uppercase font-bold text-slate-500">Inventory Control</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative">
+                    <div class="aspect-square bg-gradient-to-br from-[#0082C3] to-[#00f0ff] rounded-[3rem] opacity-20 blur-3xl absolute inset-0"></div>
+                    <div class="relative glass-panel p-8 rounded-[3rem] border border-white/10 text-center">
+                        <i class="fas fa-microchip text-6xl text-[#00f0ff] mb-6"></i>
+                        <p class="font-mono text-xs text-emerald-400 mb-4">>> SYSTEM_READY: OPTIMIZATION_IN_PROGRESS</p>
+                        <p class="text-sm text-slate-400 italic">"Tehnologia GetRoomzy m-a învățat cum să scalez eficiența. La Decathlon, aplic aceleași principii pentru mii de produse."</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="py-12 text-center text-slate-600 text-[10px] font-bold uppercase tracking-[0.5em] border-t border-white/5">
+        Baptiste Lotodé • Cluj-Napoca • Operations Mastery 2026
     </footer>
 
 </body>
-
 </html>
-
